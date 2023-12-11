@@ -9,6 +9,7 @@ Implemented YOLOv8 for accurate and efficient real-time object detection.
 Designed an intuitive user interface for user interaction and flexibility.
 Enabled users to draw enclosed shapes on the image for region-specific object detection.
 Integrated masking and counting functionalities based on total region area or drawn lines.
+
 Technologies and Skills:
 
 Python
