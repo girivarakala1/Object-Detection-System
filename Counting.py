@@ -4,17 +4,9 @@ from ultralytics import YOLO
 import math
 from sort import *
 
-model = YOLO("D:\\PYTHON\\YOLO\\yolov8n.pt")
+model = YOLO("C:\\Users\\giriv\\Downloads\\best.pt")
 
-classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat","traffic light",
-               "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",
-               "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella", "handbag","tie", "suitcase", "frisbee",
-               "skis", "snowboard", "sports ball", "kite", "baseball bat", "baseball glove", "skateboard", "surfboard",
-               "tennis racket", "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple",
-               "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "sofa",
-               "potted plant", "bed", "dining table", "toilet", "tv monitor", "Laptop", "mouse", "remote", "keyboard",
-               "cell phone", "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
-               "teddy bear", "hair drier", "toothbrush"]
+classNames = ['baby-boy', 'baby-girl', 'boy', 'girl', 'man', 'old-man', 'old-women', 'women']
 
 
 def intersection_points(points):
@@ -190,8 +182,9 @@ def region_area(data):
 
 def main():
     while True:
-        print("Enter 1 or more class names with comma separated to detect :  ")
-        class_list = input().split(",")
+        print(*classNames)
+        print("Enter 1 or more class names with space separated to detect :  ")
+        class_list = input().split(" ")
         error_names = []
         for name in class_list:
             if name not in classNames:
@@ -207,9 +200,9 @@ def main():
 
     option = input(" Do you have video file path y/n : ")
     if option.lower() == "y" or option.lower() == "yes":
-        path = input(r"Enter video file path: ")
-        #path = "D:\4K Video of Highway Traffic_(720P_HD).mp4"
-        path = path.replace("\\", "\\\\")
+        #path = input(r"Enter video file path: ")
+        path = "C:\\Users\\giriv\\Downloads\\dance.mp4"
+        #path = path.replace("\\", "\\\\")
         cap = cv2.VideoCapture(path)
     else:
         path = input("Enter 0 for web cam or 1 for external cam")
@@ -223,7 +216,11 @@ def main():
 
     print("Do you want to detect full video screen or only some part")
     masked_pic = input("only some part y/n : ")
-    num_of_regions = input("how many regions you want to create 1 or more : ")
+    if masked_pic == "y" or masked_pic == "yes":
+        num_of_regions = input("how many regions you want to create 1 or more : ")
+    else:
+        num_of_regions = "1"
+
     if num_of_regions.isdigit() and int(num_of_regions) > 1:
         num_of_regions = int(num_of_regions)
     else:
@@ -250,7 +247,7 @@ def main():
             break
     co_ordinates = []
     totalCounts = []
-    decision = input("Do you want to count objects at specific line y/n : ")
+    decision = "no"
     if decision.lower() == "y" or decision.lower() == "yes":
         for i in range(num_of_regions):
             totalCounts.append([])
@@ -262,15 +259,17 @@ def main():
             if n == 0:
                 break
     else:
-        print("Do you want to overall count seperatly based on regions")
-        count_decision = input("Count seperatly based on regions y/n : ")
+        if masked_pic == "y" or masked_pic == "yes":
+            count_decision = input("Count seperatly based on regions y/n : ")
+        else:
+            count_decision = "no"
         if count_decision.lower() == "y" or count_decision.lower() == "yes":
             region_area(global_co_ordinates)
             for i in range(num_of_regions):
                 totalCounts.append([])
 
     mask = cv2.imread("C:\\Users\\giriv\\Opencv_practice\\ch_5 Running yolo\\project1 Count\\\\mask.jpg")
-    tracker = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
+    tracker = Sort(max_age=200, min_hits=3, iou_threshold=0.3)
 
     while True:
         success, img = cap.read()
@@ -297,6 +296,7 @@ def main():
                 cls = int(box.cls[0])
                 conf = math.ceil((box.conf[0] * 100)) / 100
                 currentClass = classNames[cls]
+
                 if currentClass in class_list and conf > 0.3:
                     # cvzone.putTextRect(img, f"{currentClass} {conf}", (max(0, x1), max(35, y1)), scale=1, thickness=1, offset=3)
                     # cvzone.cornerRect(img, (x1, y1, w, h), l=5)
