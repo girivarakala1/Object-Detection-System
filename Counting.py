@@ -201,7 +201,7 @@ def main():
     option = input(" Do you have video file path y/n : ")
     if option.lower() == "y" or option.lower() == "yes":
         #path = input(r"Enter video file path: ")
-        path = "C:\\Users\\giriv\\Downloads\\dance.mp4"
+        path = "C:\\Users\\giriv\\Object-Detection-System\\Video.mp4"
         #path = path.replace("\\", "\\\\")
         cap = cv2.VideoCapture(path)
     else:
@@ -252,7 +252,7 @@ def main():
         for i in range(num_of_regions):
             totalCounts.append([])
         n = num_of_regions
-        frame_path = "C:\\Users\giriv\\Opencv_practice\\ch_5 Running yolo\\project1 Count\\first_frame.jpg"
+        frame_path = "C:\\Users\\giriv\\Object-Detection-System\\first_frame.jpg"
         while True:
             mask_coordinates(frame_path)
             n-=1
@@ -268,7 +268,7 @@ def main():
             for i in range(num_of_regions):
                 totalCounts.append([])
 
-    mask = cv2.imread("C:\\Users\\giriv\\Opencv_practice\\ch_5 Running yolo\\project1 Count\\\\mask.jpg")
+    mask = cv2.imread("C:\\Users\\giriv\\Object-Detection-System\\mask.jpg")
     tracker = Sort(max_age=200, min_hits=3, iou_threshold=0.3)
 
     while True:
