@@ -201,7 +201,7 @@ def main():
     option = input(" Do you have video file path y/n : ")
     if option.lower() == "y" or option.lower() == "yes":
         #path = input(r"Enter video file path: ")
-        path = "C:\\Users\\giriv\\Object-Detection-System\\Video.mp4"
+        path = "C:\\Users\\giriv\\Video.mp4"
         #path = path.replace("\\", "\\\\")
         cap = cv2.VideoCapture(path)
     else:
